@@ -12,7 +12,7 @@ The  backend service for the AdventureWork ERP system. It handles business logic
 - Database integration  
 
 **Repository:**  
-Link: *link to backend repository*
+Link: **[AdventureWork-ERP-backend](https://github.com/CkoThuw11/AdventureWork-ERP-backend)**
 
 ## 🎨 2. AdventureWork-ERP-frontend
 
@@ -25,7 +25,7 @@ The user interface application for the ERP system. It allows users to interact w
 - Dashboards and ERP modules  
 
 **Repository:**  
-Link: *link to frontend repository*
+Link: **[AdventureWork-ERP-frontend](https://github.com/CkoThuw11/AdventureWork-ERP-frontend)**
 
 ## 🗄 3. DataWarehouse
 
@@ -38,9 +38,9 @@ The centralized warehouse used for analytics, reporting, and business intelligen
 - Data aggregation and transformation  
 
 **Repository:**  
-Link: *link to DataWarehouse repository*
+Link: **[DataWarehouse](https://github.com/CkoThuw11/DataWarehouse)**
 
-## 🌩 4. Cloud-based DataWarehouse
+## 🌩 4. Cloud-based-DataWarehouse
 
 **Description:**  
 A cloud‑based data warehouse which is designed for scalability, performance, and integration with cloud‑native services.
@@ -50,4 +50,4 @@ A cloud‑based data warehouse which is designed for scalability, performance, a
 - Integration with cloud services 
 
 **Repository:**  
-Link: *link to Cloud-based DataWarehouse repository*
+Link: **[Cloud-based-DataWarehouse](https://github.com/CkoThuw11/Cloud-based-DataWarehouse)**
