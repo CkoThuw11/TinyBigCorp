@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: tinybigcorp-postgres
+    environment:
+      POSTGRES_DB: tinybigcorp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: "-E UTF8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - tinybigcorp-network
+
+  # Flyway Database Migrations
+  flyway:
+    image: flyway/flyway:10-alpine
+    container_name: tinybigcorp-flyway
+    command: -url=jdbc:postgresql://postgres:5432/tinybigcorp -user=postgres -password=postgres -connectRetries=60 migrate
+    volumes:
+      - ./backend/migrations:/flyway/sql
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - tinybigcorp-network
+
+  # Backend API (FastAPI)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tinybigcorp-backend
+    environment:
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: tinybigcorp
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      APP_ENV: development
+      DEBUG: "true"
+      LOG_LEVEL: INFO
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      flyway:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    networks:
+      - tinybigcorp-network
+    restart: unless-stopped
+
+  # Frontend (Angular)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tinybigcorp-frontend
+    environment:
+      NODE_ENV: development
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - tinybigcorp-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  tinybigcorp-network:
+    driver: bridge

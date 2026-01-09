@@ -1,0 +1,8 @@
+[submodule "backend"]
+	path = backend
+	url = https://github.com/CkoThuw11/AdventureWork-ERP-backend.git
+	branch = main
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/CkoThuw11/AdventureWork-ERP-frontend.git
+	branch = main
